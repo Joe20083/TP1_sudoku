@@ -37,7 +37,7 @@ public class IntegerBoard<T> implements GameBoard<T>{
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
-    int getWidth();
+    public int getWidth();
 
 
     int getHeight();
