@@ -3,7 +3,7 @@ public class SudokuSolver implements GameSolver {
     // attributes
     IntegerBoard board;
     IntegerBoard solution;
-    Tree<IntegerBoard> ...
+    Tree<IntegerBoard> ..
 
     // constructor
     public SudokuSolver( GameBoard board )...

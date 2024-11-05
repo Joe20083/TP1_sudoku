@@ -89,16 +89,16 @@ public abstract class AbstractTree<E> implements Tree<E> {
 
     // breadth-first traversal
     public Iterable<Position<E>> breadthfirst() {
-	List<Position<E>> snapshot = new ArrayList<>();
-	if( !this.isEmpty() ) {
-	    Queue<Position<E>> fringe = new LinkedList<>();
-	    fringe.offer( this.root() ); // start with root
-	    while( !fringe.isEmpty() ) {
-		Position<E> p = fringe.poll(); // remove from front of the queue
-		snapshot.add( p ); // report this position
-		for( Position<E> c : children( p ) )
-		    fringe.offer( c ); // add children to back of queue
-	    }
+	  List<Position<E>> snapshot = new ArrayList<>();
+	    if( !this.isEmpty() ) {
+	      Queue<Position<E>> fringe = new LinkedList<>();
+	      fringe.offer( this.root() ); // start with root
+	      while( !fringe.isEmpty() ) {
+	    	Position<E> p = fringe.poll(); // remove from front of the queue
+		    snapshot.add( p ); // report this position
+		    for( Position<E> c : children( p ) )
+		      fringe.offer( c ); // add children to back of queue
+          }
 	}
 	return snapshot;
     }
