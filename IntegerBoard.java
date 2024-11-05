@@ -37,12 +37,23 @@ public class IntegerBoard<T> implements GameBoard<T>{
         return x >= 0 && x < width && y >= 0 && y < height;
     }
 
-    public int getWidth();
+    public int getWidth(){
+        returns this.width;
+    }
 
 
-    int getHeight();
+    public int getHeight(){
+        returns this.hight;
+    }
 
 
-    void display();
+    public void display(){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < hight; j++) {
+                System.out.print(board[i][j]);
+                System.out.print(" ");
+            }
+        }
+    }
 
 }
