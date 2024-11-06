@@ -106,6 +106,6 @@ public class SudokuApp {
         test.testCase2();
         test.testCase3();
         test.testCase4();
-	test.testCase5();
+	    test.testCase5();
     }
 }
