@@ -19,7 +19,7 @@ public class GeneralTree<E> extends AbstractTree<E> {
         public E getElement() { return this.element; }
         public Node<E> getParent() { return this.parent; }
         public List<Node<E>> getChildren() { return this.children; }
-        public Node<E> getChildrenK(int k) { return this.children.get(k-1); }
+        public Node<E> getChildK(int k) { return this.children.get(k-1); }
         public Object getContainer() { return this.container; }
         // setters
         public void setElement( E e ) { this.element = e; }
@@ -62,10 +62,16 @@ public class GeneralTree<E> extends AbstractTree<E> {
         return node.getParent();
     }
     @Override
-    public Position<E> child_k( Position<E> p, int k ) throws IllegalArgumentException {
+    public Position<E> childK( Position<E> p, int k ) throws IllegalArgumentException {
         Node<E> node = this.validate( p );
-        return node.getChild(k);
+        return node.getChildK(k);
     }
+    @Override
+    public int numChildren(Position<E> p){
+        Node<E> node = this.validate( p );
+        return node.children.size();
+    }
+
 
 
 }
