@@ -39,12 +39,14 @@ public class SudokuSolver implements GameSolver {
 
     // Recursive backtracking method to solve the board
     private boolean solveBoard(LinkedGeneralTree.TreeNode<IntegerBoard> currentNode) {
+
         IntegerBoard currentBoard = currentNode.getElement();
+        int size = currentBoard.getWidth();
 
         for (int row = 0; row < currentBoard.getWidth(); row++) {
             for (int col = 0; col < currentBoard.getHeight(); col++) {
                 if (currentBoard.getCell(row, col) == 0) {  // Find an empty cell
-                    for (int num = 1; num <= 9; num++) {
+                    for (int num = 1; num <= size ; num++) {
                         if (isValidPlacement(currentBoard, row, col, num)) {
                             currentBoard.setCell(row, col, num);  // Place number
 
@@ -85,11 +87,12 @@ public class SudokuSolver implements GameSolver {
             }
         }
 
-        // Check the 3x3 sub-grid
-        int startRow = row - row % 3;
-        int startCol = col - col % 3;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        // Check the nxn sub-grid
+        int n = (int) Math.sqrt(currentBoard.getWidth());
+        int startRow = row - row % n;
+        int startCol = col - col % n;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 if (currentBoard.getCell(i + startRow, j + startCol) == value) {
                     return false;
                 }
