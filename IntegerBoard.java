@@ -5,7 +5,7 @@ public class IntegerBoard implements GameBoard<Integer> {
     // Constructor to initialize the board with an existing puzzle
     public IntegerBoard(Integer[][] puzzle) {
         size  = puzzle.length;
-        if (puzzle.length != size || puzzle[0].length != size) {
+        if ( puzzle[0].length != size) {
             throw new IllegalArgumentException(String.format("Puzzle dimensions must be %dx%d.", size, size));
         }
         this.board = new int[size][size];
@@ -27,7 +27,7 @@ public class IntegerBoard implements GameBoard<Integer> {
     public void setCell(int x, int y, Integer value) {
         validatePosition(x, y);
         if (value == null || value < 0 || value > size) {
-            throw new IllegalArgumentException("Cell value must be between 0 and 9.");
+            throw new IllegalArgumentException(String.format("Cell value must be between 0 and %d.", size));
         }
         board[x][y] = value;
     }
