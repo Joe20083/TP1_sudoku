@@ -11,8 +11,8 @@ public class SudokuSolver implements GameSolver {
             throw new IllegalArgumentException("Board must be an instance of IntegerBoard.");
         }
         this.board = (IntegerBoard) board;
-        this.solution = this.board.clone();  // Initialize solution as a clone of the original board
-        this.solutionTree = new LinkedGeneralTree<>(this.solution.clone());  // Tree root as initial board
+        this.solution = this.board;// Initialize solution
+        this.solutionTree = new LinkedGeneralTree<>(this.solution);// Tree root as initial board
     }
 
     // Solves the Sudoku puzzle using backtracking
@@ -43,24 +43,27 @@ public class SudokuSolver implements GameSolver {
         IntegerBoard currentBoard = currentNode.getElement();
         int size = currentBoard.getWidth();
 
-        for (int row = 0; row < currentBoard.getWidth(); row++) {
-            for (int col = 0; col < currentBoard.getHeight(); col++) {
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
                 if (currentBoard.getCell(row, col) == 0) {  // Find an empty cell
                     for (int num = 1; num <= size ; num++) {
                         if (isValidPlacement(currentBoard, row, col, num)) {
                             currentBoard.setCell(row, col, num);  // Place number
 
-                            // Clone the current board and add it as a new node in the tree
-                            IntegerBoard nextBoardState = currentBoard.clone();
                             LinkedGeneralTree.TreeNode<IntegerBoard> childNode =
-                                    (LinkedGeneralTree.TreeNode<IntegerBoard>) solutionTree.addNode(nextBoardState, currentNode);
-
+                                   (LinkedGeneralTree.TreeNode<IntegerBoard>) solutionTree.addNode(currentBoard, currentNode);
                             if (solveBoard(childNode)) {  // Recursively attempt to solve
                                 return true;
                             }
-
+                            //remove the last child added
+                            //System.out.printf("Children %d, %d, %d:%n",row,col,num);
+                            //currentBoard.display();
+                            childNode.getParent().getChildren().removeLast();
+                            LinkedGeneralTree.remove(childNode);
                             currentBoard.setCell(row, col, 0);  // Reset cell if no solution found
                         }
+
+
                     }
                     return false;  // Return false if no valid number can be placed here
                 }

@@ -52,17 +52,6 @@ public class IntegerBoard implements GameBoard<Integer> {
         }
     }
 
-    // Clone method to create a copy of the current board state
-    public IntegerBoard clone() {
-        IntegerBoard copy = new IntegerBoard(new Integer[size][size]);
-        for (int i = 0; i < size; i++) {
-            System.arraycopy(this.board[i], 0, copy.board[i], 0, size);
-        }
-        return copy;
-    }
-
-
-
     // Validates if the x and y positions are within the board limits
     private void validatePosition(int x, int y) {
         if (x < 0 || x >= size || y < 0 || y >= size) {

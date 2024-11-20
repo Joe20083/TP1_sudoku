@@ -93,11 +93,37 @@ public class SudokuApp {
             {3, 4, 0, 0},
             {0, 0, 0, 0},
             {4, 3, 2, 1}
+
         };
         GameBoard board = new IntegerBoard( puzzle );
         GameSolver solver = new SudokuSolver( board );
 	solver.solve();
 	solver.printSolution();
+    }
+    public void testCase6() {
+        System.out.println( "*** Test Case 6 ***:" );
+        Integer[][] puzzle = {
+                {5, 3, 0, 0, 7, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0},
+                {6, 0, 0, 1, 9, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 9, 8, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0},
+                {8, 0, 0, 0, 6, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0},
+                {4, 0, 0, 8, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {7, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 6, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 4, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 8, 0, 0, 7, 9, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 4, 1, 9, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 7, 9, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 8, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 9, 0, 0}
+        };
+        GameBoard board = new IntegerBoard( puzzle );
+        GameSolver solver = new SudokuSolver( board );
+        solver.solve();
+        solver.printSolution();
     }
 
     public static void main( String[] args ) {
@@ -107,5 +133,6 @@ public class SudokuApp {
         test.testCase3();
         test.testCase4();
 	    test.testCase5();
+        test.testCase6();
     }
 }
