@@ -59,7 +59,7 @@ public class SudokuSolver implements GameSolver {
                             //System.out.printf("Children %d, %d, %d:%n",row,col,num);
                             //currentBoard.display();
                             childNode.getParent().getChildren().removeLast();
-                            LinkedGeneralTree.remove(childNode);
+                            //LinkedGeneralTree.remove(childNode);
                             currentBoard.setCell(row, col, 0);  // Reset cell if no solution found
                         }
 

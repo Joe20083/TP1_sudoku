@@ -159,7 +159,7 @@ public class LinkedGeneralTree<E> implements Tree<E> {
         TreeNode<E> node = this.validate( p );
         if( numChildren( p ) >= 2 )
             throw new IllegalArgumentException( "p has at leas two children" );
-        TreeNode<E> child = ( node.getChildK(0));
+        TreeNode<E> child = (node.getChildK(0));
         if( child != null )
             child.setParent( node.getParent() ); // child's grandparent becomes parent
         if( node == root )
