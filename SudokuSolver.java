@@ -38,7 +38,6 @@ public class SudokuSolver implements GameSolver {
     }
 
     // Recursive method to solve the board
-    //private boolean solveBoard(LinkedGeneralTree.TreeNode<IntegerBoard> currentNode) {
     private boolean solveBoard(Position<IntegerBoard> currentNode) {
 
         IntegerBoard currentBoard = currentNode.getElement();
@@ -51,8 +50,6 @@ public class SudokuSolver implements GameSolver {
                         if (isValidPlacement(currentBoard, row, col, num)) {
                             currentBoard.setCell(row, col, num);  // Place number
 
-                            //LinkedGeneralTree.TreeNode<IntegerBoard> childNode =
-                              //     (LinkedGeneralTree.TreeNode<IntegerBoard>) solutionTree.addNode(currentBoard, currentNode);
                             Position<IntegerBoard> childNode = solutionTree.addNode(currentBoard, currentNode);
                             if (solveBoard(childNode)) {  // Recursively attempt to solve
                                 return true;
@@ -75,7 +72,11 @@ public class SudokuSolver implements GameSolver {
 
                
             }
-            solutionTree.removeBranch(currentNode);
+            System.out.println("Meg used="+(Runtime.getRuntime().totalMemory()-
+                    Runtime.getRuntime().freeMemory())/(1000*1000)+"M");
+            if(Runtime.getRuntime().freeMemory()>1000*1000 ) currentBoard.display();
+            for(Position<IntegerBoard> c :solutionTree.children(solutionTree.parent(currentNode))){
+            solutionTree.removeBranch(c);}
         }
         // Solution found; set this board state as the solution
         solution = currentBoard;

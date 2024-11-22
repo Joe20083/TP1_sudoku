@@ -134,5 +134,7 @@ public class SudokuApp {
         //test.testCase4();
 	    //test.testCase5();
         test.testCase6();
+        System.out.println("Meg used="+(Runtime.getRuntime().totalMemory()-
+                Runtime.getRuntime().freeMemory())/(1000*1000*1000)+"M");
     }
 }

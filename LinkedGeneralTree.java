@@ -56,12 +56,6 @@ public class LinkedGeneralTree<E> implements Tree<E> {
         root = new TreeNode<>(rootElement, null, null);
         size = 1;
     }
-
-    // Method to get the node of the root of the tree
-    //public TreeNode<E> getRoot() {
-      // return this.root;
-    //}
-
     // Returns the Position of the root of the tree
     @Override
     public Position<E> root() {
@@ -194,6 +188,8 @@ public class LinkedGeneralTree<E> implements Tree<E> {
                 remove(c);
             }
         }
+        node.setChildren( null );
+
     }
 
 
