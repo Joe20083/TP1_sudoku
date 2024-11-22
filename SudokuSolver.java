@@ -19,7 +19,7 @@ public class SudokuSolver implements GameSolver {
     @Override
     public boolean solve() {
         // Start solving from the root node of the solution tree
-        boolean solved = solveBoard(solutionTree.getRoot());
+        boolean solved = solveBoard(solutionTree.root());
         if (!solved) {
             solution = null;  // If unsolvable, reset solution to null
         }
@@ -37,8 +37,9 @@ public class SudokuSolver implements GameSolver {
         }
     }
 
-    // Recursive backtracking method to solve the board
-    private boolean solveBoard(LinkedGeneralTree.TreeNode<IntegerBoard> currentNode) {
+    // Recursive method to solve the board
+    //private boolean solveBoard(LinkedGeneralTree.TreeNode<IntegerBoard> currentNode) {
+    private boolean solveBoard(Position<IntegerBoard> currentNode) {
 
         IntegerBoard currentBoard = currentNode.getElement();
         int size = currentBoard.getWidth();
@@ -50,24 +51,31 @@ public class SudokuSolver implements GameSolver {
                         if (isValidPlacement(currentBoard, row, col, num)) {
                             currentBoard.setCell(row, col, num);  // Place number
 
-                            LinkedGeneralTree.TreeNode<IntegerBoard> childNode =
-                                   (LinkedGeneralTree.TreeNode<IntegerBoard>) solutionTree.addNode(currentBoard, currentNode);
+                            //LinkedGeneralTree.TreeNode<IntegerBoard> childNode =
+                              //     (LinkedGeneralTree.TreeNode<IntegerBoard>) solutionTree.addNode(currentBoard, currentNode);
+                            Position<IntegerBoard> childNode = solutionTree.addNode(currentBoard, currentNode);
                             if (solveBoard(childNode)) {  // Recursively attempt to solve
                                 return true;
                             }
                             //remove the last child added
                             //System.out.printf("Children %d, %d, %d:%n",row,col,num);
                             //currentBoard.display();
-                            childNode.getParent().getChildren().removeLast();
-                            //LinkedGeneralTree.remove(childNode);
+
+                            //if(solutionTree.numChildren(childNode)==0)solutionTree.remove(childNode);
+                            //if(solutionTree.numChildren(solutionTree.parent(childNode))>0)solutionTree.removeBranch(solutionTree.childK(solutionTree.children(solutionTree.parent(childNode)),0));
                             currentBoard.setCell(row, col, 0);  // Reset cell if no solution found
                         }
+                        //currentNode.getParent().getChildren().removeFirst();
 
 
                     }
+
                     return false;  // Return false if no valid number can be placed here
                 }
+
+               
             }
+            solutionTree.removeBranch(currentNode);
         }
         // Solution found; set this board state as the solution
         solution = currentBoard;

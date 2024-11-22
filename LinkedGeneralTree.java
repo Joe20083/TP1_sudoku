@@ -32,7 +32,10 @@ public class LinkedGeneralTree<E> implements Tree<E> {
         public E getElement() { return this.element; }
         public TreeNode<E> getParent() { return this.parent; }
         public List<TreeNode<E>> getChildren() { return this.children; }
-        public TreeNode<E> getChildK(int k) { return this.children.get(k-1); }
+        public TreeNode<E> getChildK(int k){
+            if(children.isEmpty()) return null;
+            else {return this.children.get(k);}
+        }
         // setters
         public void setElement( E e ) { this.element = e; }
         public void setParent( TreeNode<E> parent ) { this.parent = parent; }
@@ -55,9 +58,9 @@ public class LinkedGeneralTree<E> implements Tree<E> {
     }
 
     // Method to get the node of the root of the tree
-    public TreeNode<E> getRoot() {
-       return this.root;
-    }
+    //public TreeNode<E> getRoot() {
+      // return this.root;
+    //}
 
     // Returns the Position of the root of the tree
     @Override
@@ -75,6 +78,12 @@ public class LinkedGeneralTree<E> implements Tree<E> {
     public Iterable<Position<E>> children(Position<E> p) throws IllegalArgumentException {
         TreeNode<E> node = validate(p);
         return new ArrayList<>(node.getChildren());
+
+    }
+    //Returns the position of the child at index k in the collection of children of node at position p
+    public Position<E> childK(Position<E> p, int k) throws IllegalArgumentException {
+        TreeNode<E> node = validate(p);
+        return node.getChildK(k);
     }
     //Returns the number of children of Position p
     @Override
@@ -155,11 +164,12 @@ public class LinkedGeneralTree<E> implements Tree<E> {
         if (node.getParent() == node) throw new IllegalArgumentException("Position is no longer in the tree");
         return node;
     }
+    //Removes a node and replace it with its children if any
     public E remove(Position<E> p) throws IllegalArgumentException {
         TreeNode<E> node = this.validate( p );
         if( numChildren( p ) >= 2 )
             throw new IllegalArgumentException( "p has at leas two children" );
-        TreeNode<E> child = (node.getChildK(0));
+        TreeNode<E> child = node.getChildK(0);
         if( child != null )
             child.setParent( node.getParent() ); // child's grandparent becomes parent
         if( node == root )
@@ -175,5 +185,16 @@ public class LinkedGeneralTree<E> implements Tree<E> {
         node.setParent( node ); // convention for defunct node
         return tmp;
     }
+    //Removes all descendants (if any) of the node at position p
+    public void removeBranch(Position<E> p)  {
+        TreeNode<E> node = this.validate( p );
+        for( TreeNode<E> c : node.getChildren() ){
+            if(c!= null) {
+                removeBranch(c);
+                remove(c);
+            }
+        }
+    }
+
 
 }
