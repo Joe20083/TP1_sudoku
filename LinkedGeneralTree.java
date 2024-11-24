@@ -64,25 +64,25 @@ public class LinkedGeneralTree<E> implements Tree<E> {
     //Returns the Position of the parent of the node at position p or null if p is the root
     @Override
     public Position<E> parent(Position<E> p) throws IllegalArgumentException {
-        TreeNode<E> node = validate(p);
+        TreeNode<E> node = this.validate(p);
         return node.getParent();
     }
     //Returns an iterable collection of children
     @Override
     public Iterable<Position<E>> children(Position<E> p) throws IllegalArgumentException {
-        TreeNode<E> node = validate(p);
+        TreeNode<E> node = this.validate(p);
         return new ArrayList<>(node.getChildren());
 
     }
     //Returns the position of the child at index k in the collection of children of node at position p
     public Position<E> childK(Position<E> p, int k) throws IllegalArgumentException {
-        TreeNode<E> node = validate(p);
+        TreeNode<E> node = this.validate(p);
         return node.getChildK(k);
     }
     //Returns the number of children of Position p
     @Override
     public int numChildren(Position<E> p) throws IllegalArgumentException {
-        TreeNode<E> node = validate(p);
+        TreeNode<E> node = this.validate(p);
         return node.getChildren().size();
     }
     //Returns true if Position p has at least one child
@@ -103,7 +103,7 @@ public class LinkedGeneralTree<E> implements Tree<E> {
     //Returns the number of elements in the tree
     @Override
     public int size() {
-        return size;
+        return this.size;
     }
     //Returns true if the tree does not contain any position
     @Override
@@ -143,7 +143,7 @@ public class LinkedGeneralTree<E> implements Tree<E> {
 
     // Adds a new child to a given parent node and returns the position of the new child node
     public Position<E> addNode(E element, Position<E> parent) throws IllegalArgumentException {
-        TreeNode<E> parentNode = validate(parent);
+        TreeNode<E> parentNode = this.validate(parent);
         List<TreeNode<E>> children = new ArrayList<>();
         TreeNode<E> childNode = new TreeNode<>(element, parentNode, children);
         parentNode.addChild(childNode);
@@ -161,9 +161,11 @@ public class LinkedGeneralTree<E> implements Tree<E> {
     //Removes a node and replace it with its children if any
     public E remove(Position<E> p) throws IllegalArgumentException {
         TreeNode<E> node = this.validate( p );
-        if( numChildren( p ) >= 2 )
-            throw new IllegalArgumentException( "p has at leas two children" );
+        //if( numChildren( p ) >= 2 )
+          //  throw new IllegalArgumentException( "p has at leas two children" );
+        List<TreeNode<E>> children = node.getChildren();
         TreeNode<E> child = node.getChildK(0);
+
         if( child != null )
             child.setParent( node.getParent() ); // child's grandparent becomes parent
         if( node == root )
@@ -172,21 +174,28 @@ public class LinkedGeneralTree<E> implements Tree<E> {
             TreeNode<E> parent = node.getParent();
             parent.addChild( child );
         }
+        if(children.size() <= 1){
+            node.setChildren(null);
+        }
+        else{
+            children.removeFirst();
+            node.setChildren(children);
+        }
         this.size--;
         E tmp = node.getElement();
         node.setElement( null ); // garbage collection
-        node.setChildren( null );
+        //node.setChildren();
         node.setParent( node ); // convention for defunct node
         return tmp;
     }
     //Removes all descendants (if any) of the node at position p
     public void removeBranch(Position<E> p)  {
+
         TreeNode<E> node = this.validate( p );
         for( TreeNode<E> c : node.getChildren() ){
-            if(c!= null) {
-                removeBranch(c);
-                remove(c);
-            }
+            removeBranch(c);
+            remove(c);
+
         }
         node.setChildren( null );
 

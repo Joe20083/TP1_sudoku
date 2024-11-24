@@ -1,8 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class SudokuSolver implements GameSolver {
     private final IntegerBoard board;        // Original unsolved board
     private IntegerBoard solution;           // Solution board
-    private final LinkedGeneralTree<IntegerBoard> solutionTree;
-
+    private final LinkedGeneralTree<IntegerBoard> solutionTree;//Tree of possible solutions
+    int size;//size of the board
 
 
     // Constructor initializes the board and the solution tree
@@ -11,6 +15,7 @@ public class SudokuSolver implements GameSolver {
             throw new IllegalArgumentException("Board must be an instance of IntegerBoard.");
         }
         this.board = (IntegerBoard) board;
+        this.size = board.getWidth();
         this.solution = this.board;// Initialize solution
         this.solutionTree = new LinkedGeneralTree<>(this.solution);// Tree root as initial board
     }
@@ -41,7 +46,6 @@ public class SudokuSolver implements GameSolver {
     private boolean solveBoard(Position<IntegerBoard> currentNode) {
 
         IntegerBoard currentBoard = currentNode.getElement();
-        int size = currentBoard.getWidth();
 
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
@@ -49,34 +53,50 @@ public class SudokuSolver implements GameSolver {
                     for (int num = 1; num <= size ; num++) {
                         if (isValidPlacement(currentBoard, row, col, num)) {
                             currentBoard.setCell(row, col, num);  // Place number
-
-                            Position<IntegerBoard> childNode = solutionTree.addNode(currentBoard, currentNode);
-                            if (solveBoard(childNode)) {  // Recursively attempt to solve
-                                return true;
-                            }
-                            //remove the last child added
                             //System.out.printf("Children %d, %d, %d:%n",row,col,num);
                             //currentBoard.display();
+                            Position<IntegerBoard> childNode = solutionTree.addNode(currentBoard, currentNode);
 
-                            //if(solutionTree.numChildren(childNode)==0)solutionTree.remove(childNode);
-                            //if(solutionTree.numChildren(solutionTree.parent(childNode))>0)solutionTree.removeBranch(solutionTree.childK(solutionTree.children(solutionTree.parent(childNode)),0));
+                            if (solveBoard(childNode)) {  // Recursively attempt to solve
+                                return true;
+                            }else{
+                                solutionTree.remove(childNode);//remove the last child added
+                            }
                             currentBoard.setCell(row, col, 0);  // Reset cell if no solution found
                         }
-                        //currentNode.getParent().getChildren().removeFirst();
-
-
                     }
-
                     return false;  // Return false if no valid number can be placed here
                 }
 
                
             }
-            System.out.println("Meg used="+(Runtime.getRuntime().totalMemory()-
-                    Runtime.getRuntime().freeMemory())/(1000*1000)+"M");
-            if(Runtime.getRuntime().freeMemory()>1000*1000 ) currentBoard.display();
-            for(Position<IntegerBoard> c :solutionTree.children(solutionTree.parent(currentNode))){
-            solutionTree.removeBranch(c);}
+//            System.out.println("Meg used="+(Runtime.getRuntime().totalMemory()-
+//                Runtime.getRuntime().freeMemory())/(1000*1000)+"M");
+            //if(Runtime.getRuntime().freeMemory()>1000*1000 ) currentBoard.display();
+
+            //for(Position<IntegerBoard> p : solutionTree.children(solutionTree.parent(currentNode))) {
+              //  if (p instanceof Position<IntegerBoard>) { // Check if it's specifically Position<IntegerBoard>
+                //    System.out.println("currentNode is of type Position<IntegerBoard>");
+               // } else {
+                //    System.out.println("currentNode is NOT of type Position<IntegerBoard>");
+                //}
+                //solutionTree.removeBranch(p);
+            //}
+            //System.out.println("Meg used="+(Runtime.getRuntime().totalMemory()-
+              //      Runtime.getRuntime().freeMemory())/(1000*1000)+"M");
+            //if(Runtime.getRuntime().freeMemory()>1000*1000 ) currentBoard.display();
+            //for(Position<IntegerBoard> p : solutionTree.children(solutionTree.parent(currentNode))) {
+              //  solutionTree.removeBranch(currentNode);
+            //}
+//            if(solutionTree.size()>10) {
+//                for (Position<IntegerBoard> c : solutionTree.children(solutionTree.parent(currentNode))) {
+//                    solutionTree.removeBranch(c);
+//                }
+//          }
+
+            solutionTree.removeBranch(currentNode);
+            if((Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1000*1000)> 4200 ) currentBoard.display();
+
         }
         // Solution found; set this board state as the solution
         solution = currentBoard;
