@@ -7,7 +7,7 @@ import java.util.List;
  *
  * Based on Goodrich, Tamassia, Goldwasser and the course IFT2015 code
  *
- * @authors
+ * @authors Joseph Finan et Lara Simone Suarez Lopez
  * @version     1.0
  * @since       1.0
  */
@@ -33,7 +33,7 @@ public class LinkedGeneralTree<E> implements Tree<E> {
         public TreeNode<E> getParent() { return this.parent; }
         public List<TreeNode<E>> getChildren() { return this.children; }
         public TreeNode<E> getChildK(int k){
-            if(children.isEmpty()) return null;
+            if(children.isEmpty() || k > children.size()) return null;
             else {return this.children.get(k);}
         }
         // setters
@@ -189,17 +189,18 @@ public class LinkedGeneralTree<E> implements Tree<E> {
         return tmp;
     }
     //Removes all descendants (if any) of the node at position p
-    public void removeBranch(Position<E> p)  {
-
-        TreeNode<E> node = this.validate( p );
-        for( TreeNode<E> c : node.getChildren() ){
-            removeBranch(c);
-            remove(c);
-
-        }
-        node.setChildren( null );
-
-    }
+//    public void removeBranch(Position<E> p)  {
+//
+//        TreeNode<E> node = this.validate( p );
+//        if(numChildren(p)!=0){
+//            for( TreeNode<E> c : node.getChildren() ) {
+//                removeBranch(c);
+//                remove(c);
+//            }
+//        }
+//        node.setChildren( null );
+//
+//    }
 
 
 }

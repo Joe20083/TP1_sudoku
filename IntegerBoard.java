@@ -1,3 +1,13 @@
+/**
+ * Linked general tree is a class implementing GameBoard<Integer>, it contains methods used for
+ * accessing and changing the grid of a given sudoku
+ *
+ * Based on Goodrich, Tamassia, Goldwasser and the course IFT2015 code
+ *
+ * @authors Joseph Finan et Lara Simone Suarez Lopez
+ * @version     1.0
+ * @since       1.0
+ */
 public class IntegerBoard implements GameBoard<Integer> {
     private final int[][] board;
     private final int size;  // Standard Sudoku grid size
@@ -13,16 +23,17 @@ public class IntegerBoard implements GameBoard<Integer> {
             for (int j = 0; j < size; j++) {
                 // Check for null and initialize empty cells as 0
                 this.board[i][j] = (puzzle[i][j] != null) ? puzzle[i][j] : 0;
+
             }
         }
     }
-
+    //Returns the value in the (x,y) entry of the board
     @Override
     public Integer getCell(int x, int y) {
         validatePosition(x, y);
         return board[x][y];
     }
-
+    //sets the value of the (x,y)  entry of the board
     @Override
     public void setCell(int x, int y, Integer value) {
         validatePosition(x, y);
@@ -31,17 +42,17 @@ public class IntegerBoard implements GameBoard<Integer> {
         }
         board[x][y] = value;
     }
-
+    //returns the width of the board
     @Override
     public int getWidth() {
         return size;
     }
-
+    //returns the height of the board
     @Override
     public int getHeight() {
         return size;
     }
-
+    //Prints the board
     @Override
     public void display() {
         for (int i = 0; i < size; i++) {
@@ -58,5 +69,6 @@ public class IntegerBoard implements GameBoard<Integer> {
             throw new IndexOutOfBoundsException("Position out of board bounds");
         }
     }
+
 
 }
